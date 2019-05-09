@@ -1,6 +1,6 @@
 {% include mathjax %}
 
-## BinDecParam
+## CodBinary
 	
 ### Призначення
 
