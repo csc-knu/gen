@@ -17,7 +17,11 @@ def __cod_decimal(x_bin: np.array, x_min: float, d: float) -> float:
 
     x_dec_1 = reduce(lambda _1, _2: _1 * 2 + _2, map(int, x_bin[::-1]))
 
-    return x_min + d * x_dec_1
+    x_bin_1 = 0
+    while x_dec_1 != 0:
+        x_bin_1 ^= x_dec_1
+        x_dec_1 >>= 1
+    return x_min + d * x_bin_1
 
 
 def __a_cod_decimal(n: int, m: int, g_bin: np.matrix, x_min: np.array, NN: np.array,

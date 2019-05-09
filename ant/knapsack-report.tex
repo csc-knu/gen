@@ -1,0 +1,180 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1, T2A]{fontenc}
+\usepackage[english, ukrainian]{babel}
+
+\usepackage{amsmath, amssymb}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{minted,verbatim}
+
+\allowdisplaybreaks
+\setlength\parindent{0pt}
+\numberwithin{equation}{subsection}
+
+\usepackage{hyperref}
+\hypersetup{unicode=true,colorlinks=true,linktoc=all,linkcolor=blue}
+
+\newcommand{\Sum}{\displaystyle\sum\limits}
+
+\newcommand{\ZZ}{\mathbb{Z}}
+
+\numberwithin{equation}{section}
+
+\begin{document}
+
+\begin{center}
+\hfill \break
+	Міністерство освіти та науки України \\
+	Київський національний університет імені Тараса Шевченка \\ 
+	Факультет комп'ютерних наук та кібернетики \\
+	Кафедра обчислювальної математики
+\end{center}
+
+\vfill 
+
+\begin{center}
+	\large{
+		Звіт до лабораторної роботи №3 на тему: \\ 
+		``Мурашиний алгоритм''
+	}
+\end{center}
+
+\vfill 
+
+\begin{flushright}
+	Виконав студент групи ОМ-3 \\
+	Скибицький Нікіта
+\end{flushright}
+
+\vfill 
+
+\begin{center}
+    Київ, 2019
+\end{center}
+
+\thispagestyle{empty} 
+
+\newpage
+
+\tableofcontents
+
+\section{Постановка задачі}
+
+Розглянемо відому задачу про ранець: є $T$ типів предметів, причому предметів $i$-го типу рівно $q_i$ штук. Предмет $i$-го типу характеризується значеннями своєї корисності $u_i$ та ваги $w_i$. Окрім цього є ранець який вміщує довільну кількість предметів сумарною вагою не більше $W$. Необхідно вибрати підмножину заданих предметів яку можна розмістити у ранці, з максимальною сумарною корисністю. \medskip
+
+Тобто, ставиться задача
+\begin{equation}
+	U(c) = \Sum_{i = 1}^T c_i \cdot u_i \xrightarrow[c \in \mathcal{C}]{} \max,
+\end{equation}
+де $\mathcal{C}$ --- допустима область, яка визначається наступним чином:
+\begin{equation}
+	\mathcal{C} = \left\{ c \in \ZZ^T \middle| \forall i: 0 \le c_i \le q_i \land \Sum_{i = 1}^T c_i \cdot w_i \le W \right\}.
+\end{equation}
+
+Зауважимо, що можна також записати
+\begin{equation}
+ 	U(c) = \langle c, u \rangle,
+\end{equation}
+і
+\begin{equation}
+	\mathcal{C} = \left\{ c \in Q_1 \times Q_2 \times \ldots \times Q_T \middle| \langle c, w \rangle \le W \right\},
+\end{equation}
+де $Q_i = \ZZ \cap [0, q_i]$.
+
+\section{Опис алгоритму}
+
+Розглянемо популяцію з $N$ мурах, які протягом $M$ ітерацій намагаються спакувати свій ``ранець'' (наприклад, підготувати запаси на зиму, які необхідно розмістити в обмеженому просторі мурашника). Уявімо, що на кожній ітерації кожна мурашка пакує свій уявний ранець ходячи туди-сюди до потрібних їй предметів, залишаючи на своєму шляху феромени, і керуючись у вже наявними із попередніх ітерацій фероменами для вибору шляху.
+
+\subsection{Феромени які залишає мурашка}
+
+А саме, нехай муршака знайшла розв'язок $c$ з сумарною вагою $w$ і сумарною корисністю $u$, тоді кількість фероменів $f_i$ залишених на шляху до купки об'єктів типу $i$ описується функцією $f$:
+\begin{equation}
+	f_i = f(c_i, w, u, w_i, u_i),
+\end{equation}
+на яку накладаються наступні умови:
+\begin{align}
+	\frac{\partial f}{\partial w} &< 0, \\
+	\frac{\partial f}{\partial u} &> 0, \\
+	\frac{\partial f}{\partial w_i} &< 0, \\
+	\frac{\partial f}{\partial u_i} &> 0, \\
+	\frac{\partial f}{\partial c_i} &> 0, \\
+	f(0, \ldots) &= 0.
+\end{align}
+
+Наприклад, 
+\begin{equation}
+	f(w, u, w_i, u_i) = \ln (c_i + 1) \cdot \frac{u_i}{w_i} \cdot \frac{u}{w}.
+\end{equation}
+
+\subsection{Процес побудови розв'язку}
+
+Нехай з попередньої ітерації вже наявні феромени у кількості $f_i$ на шляху до купки предметів $i$-го типу, тоді поки у ранець можна покласти ще хоча б один предмет мурашка обчислює наступні характеристики $\chi_i$ кожного типу предметів який ще може влізти у ранець:
+\begin{equation}
+	\chi_i = \chi(u_i, w_i, f_i),
+\end{equation}
+де на функцію $\chi$ накладаються наступні умови
+\begin{align}
+	\frac{\partial \chi}{\partial w_i} &< 0, \\
+	\frac{\partial \chi}{\partial u_i} &> 0, \\
+	\frac{\partial \chi}{\partial f_i} &> 0.
+\end{align}
+
+Наприклад,
+\begin{equation}
+	\chi(w_i, u_i, f_i) = \frac{u_i}{w_i} \cdot (1 + \rho \cdot f_i),
+\end{equation}
+де $\rho \in (0, 2)$ --- певний коефіцієнт, наприклад $\rho = 1$. \medskip
+
+На основі обчислених характеристик обчислюються ймовірності вибору кожного типу предметів:
+\begin{equation}
+	p_i = \frac{\chi_i}{\Sum_{i = 1}^T \chi_i}.
+\end{equation}
+
+\subsection{Процес оновлення фероменів}
+
+Якщо до ітерації $i$ кількість фероменів на шляху до $j$-ої купки предметів дорівнює $F_{i,j}$, а на $i$-ій ітерації додалося $f_{i,j}$, то
+\begin{equation}
+	F_{i+1,j} = \alpha \cdot f_{i, j} + (1 - \alpha) \cdot F_{i, j},
+\end{equation}
+де $\alpha \in (0, 1)$ --- певний коефіцієнт, наприклад $\alpha = 0.1$.
+
+\section{Код}
+
+\subsection{Процес побудови розв'язку}
+
+\inputminted{python}{generate_solution.py}
+
+\subsection{Процес обчислення фероменів}
+
+\inputminted{python}{calculate_feroments.py}
+
+\subsection{Програма-драйвер і основний алгоритм}
+
+\inputminted{python}{knapsack.py}
+
+\section{Результати}
+
+Проводилося тестування на відносно складній задачі ($T = 100$) але однорідній задачі. Однорідність означає, що
+\begin{equation}
+	\frac{\max_i u_i}{\min u_i} \le 2 \quad \land \quad \frac{\max_i w_i}{\min w_i} \le 2
+\end{equation}
+
+Початковий результат отриманий випадковим чином складав 80\% теоретичного максимуму:
+\begin{verbatim}
+it #00: best_u = 11882
+\end{verbatim}
+
+За 10 ітерацій алгоритм досяг покращення у 17\% у порівнянні з початковим результатом, тобто досяг результату у 97\% від теоретичного максимуму:
+\begin{verbatim}
+it #10: best_u = 13942
+\end{verbatim}
+
+Опісля відбувається стагнація: за наступні 100 ітерацій прогрес склав ще 2\%, у результаті чого алгоритм підійшов до 99\% теоретичного максимуму.
+\begin{verbatim}
+it #99: best_u = 14135
+\end{verbatim}
+
+
+\end{document}

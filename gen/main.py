@@ -14,9 +14,13 @@ from best_worst import best, worst
 
 np.set_printoptions(linewidth=100)
 
-n, _m = 20, 3
+np.random.seed(65537)
 
-x_min, x_max = np.repeat(-5.12, _m), np.repeat(5.12, _m)
+n, _m = 1 << 10, 20
+
+x_min, x_max = np.repeat(-2, _m), np.repeat(2, _m)
+
+# x_min, x_max = np.repeat(-5.12, _m), np.repeat(5.12, _m)
 
 g_dec = generation_dec(n, x_min, x_max)
 
@@ -32,13 +36,13 @@ nn, dd, NN = bin_dec_param(x_min, x_max, eps)
 # 	f'NN = {NN}'
 # )
 
-p = 1e-2
+p = 2e-3
 
 def rastrigin(x: np.array) -> float:
 	return -10 * _m - np.sum(np.power(x, 2) - 10 * np.cos(2 * np.pi * x))
 
 
-for _ in range(1, 1 << 12):
+for _ in range(1, 1 << 10):
 	g_bin = a_cod_binary(g_dec, x_min, nn, dd)
 
 	# print(f'g_bin = {g_bin}')
@@ -67,8 +71,8 @@ for _ in range(1, 1 << 12):
 
 	f_vals = np.array([rastrigin(g_dec[i]) for i in range(n)]).reshape((n, 1))
 
-	if not (_ & 127):
-		print(np.max(f_vals))
+	# if not (_ & 63):
+	print(f'it {_:0>4}: {np.max(f_vals):>12.7f}')
 
 	# print(f'f_vals = {f_vals}')
 
@@ -100,3 +104,4 @@ for _ in range(1, 1 << 12):
 	# print(f'g_dec = {g_dec}')
 
 print(g_dec)
+ 

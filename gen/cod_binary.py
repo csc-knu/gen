@@ -21,7 +21,8 @@ def __cod_binary(x_dec: float, x_min: float, l: int, d: float) -> np.array:
     assert x_min <= x_dec <= x_min + d * 2**l, "x_dec cannot be encoded"
     xx = int(np.floor((x_dec - x_min) / d))
     assert xx <= 2**l - 1, "x_dec cannot be encoded"
-
+    xx ^= xx >> 1
+    
     digits = list(map(int, bin(xx)[:1:-1]))
 
     return np.array(digits + [0 for _ in range(l - len(digits))])
