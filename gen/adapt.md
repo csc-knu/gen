@@ -38,7 +38,7 @@
 	\text{adaptability} = [0, p_2[1], p_2[1] + p_2[2], \ldots, p_2[1] + p_2[2] + \ldots + p_2[N]].
 	$$
 
-- $$N$$ разів генеруємо випадкове число $$0 \le \text{roll} 1$$ і перевіряємо умову належності випадкового числа $$\text{roll}$$ одному з діапазонів списку $$\text{adaptability}$$:
+- $$N$$ разів генеруємо випадкове число $$0 \le \text{roll} < 1$$ і перевіряємо умову належності випадкового числа $$\text{roll}$$ одному з діапазонів списку $$\text{adaptability}$$:
 
 	- Якщо $$\text{adaptability}[j] \le \text{roll} < \text{adaptability}[j + 1]$$, то $$\text{num}[j] = \text{num}[j] + 1$$.
 
