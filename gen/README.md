@@ -53,27 +53,27 @@ _Для зручності реалізації і оцінювання спец
 
 _Також присутні вказівки для Maple і приклади реалізації на python._
 
-Резюмуючи, Вам необхідно:
+Резюмуючи, Вам необхідно написати наступні процедури:
 
-1. Написати процедуру GenerationDec: [документація](generation_dec.md), [приклад реалізації](generation_dec.py);
+1. GenerationDec: [документація](generation_dec.md), [приклад реалізації](generation_dec.py);
 
 2. 
 
 3. 
 
-4. 
+4. Parens: [документація](parens.md), [приклад реалізації](parens.py);
 
-5. Написати процедуру BinDecParam: [документація](bin_dec_param.md), [приклад реалізації](bin_dec_param.py);
+5. BinDecParam: [документація](bin_dec_param.md), [приклад реалізації](bin_dec_param.py);
 
-6. Написати процедуру CodBinary: [документація](cod_binary.md), [приклад реалізації](cod_binary.py);
+6. CodBinary: [документація](cod_binary.md), [приклад реалізації](cod_binary.py);
 
-7. Написати процедуру CodDecimal: [документація](cod_decimal.md), [приклад реалізації](cod_decimal.py);
+7. CodDecimal: [документація](cod_decimal.md), [приклад реалізації](cod_decimal.py);
 
-8. Написати процедуру ACodBinary: [документація](a_cod_binary.md), [приклад реалізації](cod_binary.py);
+8. ACodBinary: [документація](a_cod_binary.md), [приклад реалізації](cod_binary.py);
 
-9. Написати процедуру ACodDecimal: [документація](a_cod_decimal.md), [приклад реалізації](cod_decimal.py);
+9. ACodDecimal: [документація](a_cod_decimal.md), [приклад реалізації](cod_decimal.py);
 
-10. 
+10. Adapt: [документація](adapt.md), [приклад реалізації](adapt.py);
 
 11. 
 
