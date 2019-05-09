@@ -6,7 +6,7 @@
 
 Курс лекцій і практичні заняття проводить Кузьміном А.В., kuzmin_a_b<span style="font-family:monospace;">@</span>ukr.net
 
-Підтримкою цього сайту і навчальних матеріалів займається Скибицький Н.М., n.skybytskyi<span style="font-family:monospace;">@</span>gmail.com
+Підтримкою сайту і навчальних матеріалів займається Скибицький Н.М., n.skybytskyi<span style="font-family:monospace;">@</span>gmail.com
 
 ### Розподіл балів
 
