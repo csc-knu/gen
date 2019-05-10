@@ -1,6 +1,6 @@
 {% include mathjax %}
 
-## Parens
+## Parents
 	
 ### Призначення
 

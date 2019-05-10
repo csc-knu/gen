@@ -5,7 +5,7 @@ from bin_dec_param import bin_dec_param
 from cod_binary import a_cod_binary
 from cod_decimal import a_cod_decimal
 from mutation import mutation
-from parens import parens
+from parents import parents
 from crossover import crossover
 from adapt import adapt
 from new_generation import new_generation
@@ -54,7 +54,7 @@ for _ in range(1, 1 << 10):
 	# 	f'mutation_count = {mutation_count}'
 	# )
 
-	m, f = parens(n >> 1)
+	m, f = parents(n >> 1)
 
 	# print(
 	# 	f'm = {m}\n'

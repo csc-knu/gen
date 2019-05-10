@@ -35,7 +35,7 @@ nn, dd, NN = bin_dec_param(x_min, x_max, eps)
 for _ in range(M):
 	g_bin = a_cod_binary(g_dec, x_min, nn, dd)
 	g_bin, mutation_count = mutation(g_bin, p)
-	m, f = parens(n >> 1)
+	m, f = parents(n >> 1)
 	g_bin = crossover(g_bin, m, f)
 	g_dec = a_cod_decimal(g_bin, x_min, NN, dd)
 	f_vals = np.array([f(g_dec[i]) for i in range(n)]).reshape((n, 1))
@@ -61,7 +61,7 @@ _Також присутні вказівки для Maple і приклади �
 
 3. Crossover: [документація](crossover.md), [приклад реалізації](crossover.py);
 
-4. Parens: [документація](parens.md), [приклад реалізації](parens.py);
+4. Parents: [документація](parents.md), [приклад реалізації](parents.py);
 
 5. BinDecParam: [документація](bin_dec_param.md), [приклад реалізації](bin_dec_param.py);
 
