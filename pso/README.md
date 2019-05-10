@@ -149,7 +149,6 @@ def omega(k):
 - Початковий стан рою:
 
 ```python
-# region initial state of the swarm
 X = [[uniform(b_lo, b_up) for i in range(n)] for j in range(l)]
 V = [[uniform(-step, step) for i in range(n)] for j in range(l)]
 F = [f(X[j]) for j in range(l)]
