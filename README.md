@@ -4,9 +4,9 @@
 
 ### Викладацький склад
 
-Курс лекцій і практичні заняття проводить Кузьміном А.В., kuzmin_a_b<span style="font-family:monospace;">@</span>ukr.net
+Курс лекцій і практичні заняття проводить Кузьмін А.В., kuzmin_a_b<span style="font-family:monospace;">@</span>ukr.net
 
-Підтримкою сайту і матеріалів займається Скибицький Н.М., n.skybytskyi<span style="font-family:monospace;">@</span>gmail.com
+Сайт і матеріали розробляє і підтримує Скибицький Н.М., n.skybytskyi<span style="font-family:monospace;">@</span>gmail.com
 
 ### Розподіл балів
 
