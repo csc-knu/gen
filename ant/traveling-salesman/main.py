@@ -51,12 +51,12 @@ class Ant:
 			for f, t in self.path:
 				# print(f, t, g[f][t])
 				# input()
-				g[f][t].delta += .05 * g[f][t].length / self.path_length**2
+				g[f][t].delta += .1 * g[f][t].length / self.path_length**2
 
 
 class Edge:
 	def __init__(self, length):
-		self.length, self.feroment, self.delta = length, 1, 0
+		self.length, self.feroment, self.delta = length, length, 0
 
 	def __repr__(self):
 		return f'Edge(length={self.length}, feroment={self.feroment}, delta={self.delta})'
@@ -85,7 +85,7 @@ if __name__ == '__main__':
 
 	n, m = 1000, 1000
 
-	h = [{f: {t: g[f][t].feroment for t in g[f]} for f in g}]
+	h = [{f: {t: g[f][t].feroment / g[f][t].length for t in g[f]} for f in g}]
 
 	for i in range(m):
 		print(f'{i:0>3}')
@@ -101,7 +101,7 @@ if __name__ == '__main__':
 				g[f][t].feroment, g[f][t].delta = \
 					.7 * g[f][t].feroment + g[f][t].delta, 0
 
-		h.append({f: {t: g[f][t].feroment for t in g[f]} for f in g})
+		h.append({f: {t: g[f][t].feroment / g[f][t].length for t in g[f]} for f in g})
 
 	k = 0
 	style = [
@@ -120,6 +120,9 @@ if __name__ == '__main__':
 	]
 
 	plt.figure(figsize=(20,10))
+	plt.title('Feroment intensity on edges', fontsize=20)
+	plt.xlabel('Iteration number', fontsize=16)
+	plt.ylabel('Feroment intensity', fontsize=16)
 	for f in g:
 		for t in g[f]:
 			k += 1
@@ -127,7 +130,9 @@ if __name__ == '__main__':
 				list(range(m)), 
 				[h[i][f][t] for i in range(m)], 
 				f"{style[k]['c']}{style[k]['d']}",
-				label=f'{f}$\\to${t}'
+				label=f'${f} \\to {t}$'
 			)
-	plt.legend()
-	plt.show()
+	plt.legend(fontsize=16)
+	plt.grid(True)
+	# plt.show()
+	plt.savefig(f'feroment_{m}.png', bbox_inches='tight')
