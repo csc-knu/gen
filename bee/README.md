@@ -34,9 +34,10 @@
 
 ### Код
 
+- Параметри алгоритму:
+
 ```maple
 restart;
-N := 3;
 s := 10;
 m := 8;
 e := 6;
@@ -44,21 +45,30 @@ s_e := 6;
 s_p := 4; 
 lambda := 1.33;
 Bind := 5.12;
+iterations := 10;
+```
 
+- Параметри задачі:
+
+```maple
+N := 3;
 F := proc(x, y, z) -> 10 * N + x^2 - 10 * cos(2 * Pi * x) + y^2 - 10 * cos(2 * Pi * y) + z^2 - 10 * cos(2 * Pi * z); 
 Rand := proc(x, y) -> RandomTools[Generate](float(range = x..y)); 
 
-iterations := 10;
 X := Matrix(s, N, proc(i, j) -> Rand(-Bind, Bind));
 x := proc(i) -> seq(X[i, j], j = 1..N);
+```
 
+- Основний алгоритм
+
+```maple
 itr := 0;
 while itr < iterations do
     itr := itr + 1;
     for i from 1 to (s - 1) do
         for j from 1 to (s - i) do
             if evalf(F(x(j))) > evalf(F(x(j + 1))) then
-                for k from 1 to N fo
+                for k from 1 to N do
                     tmp := x(j);
                     X[j, k] := X[j + 1, k];
                     X[j + 1, k] := tmp[k];
