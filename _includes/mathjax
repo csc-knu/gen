@@ -2,7 +2,24 @@
 	<script type="text/x-mathjax-config">
 		MathJax.Hub.Config({
 			CommonHTML: { scale: 100 },
-			TeX: { equationNumbers: { autoNumber: "AMS" } }
+			TeX: { 
+				equationNumbers: { 
+					autoNumber: "AMS"
+				},
+				Macros: {
+					RR: "{\\mathbb{R}}",
+					cond: "\\mathrm{cond}\\mathop{}",
+					diff: "\\mathop{}\\!\\mathrm{d}",
+					Int: "\\displaystyle\\int\\limits",
+					Inf: "\\displaystyle\\inf\\limits",
+					Sup: "\\displaystyle\\sup\\limits",
+					Sum: "\\displaystyle\\sum\\limits",
+					Min: "\\displaystyle\\min\\limits",
+					Max: "\\displaystyle\\max\\limits",
+					Lim: "\\displaystyle\\lim\\limits",
+					Prod: "\\displaystyle\\prod\\limits"
+				}
+			}
 		});
 	</script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
