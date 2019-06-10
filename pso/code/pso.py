@@ -10,28 +10,30 @@ from typing import List
 n, l = 2, 50
 
 
-def f(Xj: List[float]) -> float:
+def rastrigin(Xj: List[float]) -> float:
 	""" Rastrigin function """
-	return 10 * n + sum(Xj[i]**2 - 10 * cos(2 * pi * Xj[i]) for i in range(n))
+	return 10 * n + sum(Xj[i]**2 - 10 * cos(2 * pi * Xj[i]) 
+		for i in range(n))
 
 
-b_lo, b_up = -5.12, 5.12
+b_lo, b_up, f = -5.12, 5.12, rastrigin
 
 
-# def f(Xj: List[float]) -> float:
-# 	""" Rosenbrock's function """
-# 	return sum(100 * (Xj[i + 1] - Xj[i]**2)**2 + (1 - Xj[i])**2 for i in range(n - 1))
+def rosenbrock(Xj: List[float]) -> float:
+	""" Rosenbrock's function """
+	return sum(100 * (Xj[i + 1] - Xj[i]**2)**2 + (1 - Xj[i])**2 
+		for i in range(n - 1))
 
 
 # b_lo, b_up = -5, 5
 
 
-# def f(Xj: List[float]) -> float:
-# 	""" Rosenbrock's function with penalty """
-# 	p1 = 100 * max((Xj[0] - 1)**3 - Xj[1] + 1, 0)**2
-# 	p2 = 100 * max(Xj[0] + Xj[1] - 2, 0)**2
-# 	return sum(100 * (Xj[i + 1] - Xj[i]**2)**2 + (1 - Xj[i])**2 for i in range(n - 1)) + \
-# 		p1 + p2
+def rosenbrock_penalty(Xj: List[float]) -> float:
+	""" Rosenbrock's function with penalty """
+	p1 = 100 * max((Xj[0] - 1)**3 - Xj[1] + 1, 0)**2
+	p2 = 100 * max(Xj[0] + Xj[1] - 2, 0)**2
+	return sum(100 * (Xj[i + 1] - Xj[i]**2)**2 + (1 - Xj[i])**2 
+		for i in range(n - 1)) + p1 + p2
 
 
 # b_lo, b_up = -5, 5
@@ -84,7 +86,8 @@ def plot():
 	xs = [b_lo + (b_up - b_lo) * i / (grid_sz - 1) for i in range(grid_sz)]
 	x1s, x2s = [[xs[i] for i in range(grid_sz)] for j in range(grid_sz)], \
 		[[xs[j] for i in range(grid_sz)] for j in range(grid_sz)]
-	fs = [[f([x1s[i][j], x2s[i][j]]) for j in range(grid_sz)] for i in range(grid_sz)]
+	fs = [[f([x1s[i][j], x2s[i][j]]) for j in range(grid_sz)] 
+		for i in range(grid_sz)]
 	fs_raw = [fs[i][j] for i in range(grid_sz) for j in range(grid_sz)]
 	levels = MaxNLocator(nbins=10).tick_values(min(fs_raw), max(fs_raw))
 	plt.contourf(x1s, x2s, fs, levels=levels, cmap="RdBu_r")
@@ -92,8 +95,8 @@ def plot():
 	plt.contour(x1s, x2s, fs, levels=levels, colors='k')
 	px1s, px2s = [X[j][0] for j in range(l)], [X[j][1] for j in range(l)]
 	plt.scatter(px1s, px2s, c='k')
-	plt.quiver(px1s, px2s, [V[j][0] for j in range(l)], [V[j][1] for j in range(l)], 
-		scale=10)
+	plt.quiver(px1s, px2s, [V[j][0] for j in range(l)], [V[j][1] 
+		for j in range(l)], scale=10)
 	plt.draw()
 	plt.pause(.1)
 	plt.savefig(f'img/{k}.png')
@@ -157,7 +160,8 @@ for k in range(max_iter):
 	for j in range(l):
 		X[j] = [X[j][i] + V[j][i] for i in range(n)]
 
-	X = [X[j] if all(b_lo < X[j][i] < b_up for i in range(n)) else XL[j] for j in range(l)]
+	X = [X[j] if all(b_lo < X[j][i] < b_up for i in range(n)) else XL[j] 
+		for j in range(l)]
 	XL = [XL[j] if f(XL[j]) < f(X[j]) else X[j] for j in range(l)]
 	F = [f(X[j]) for j in range(l)]
 	XG = XG if f(XG) < min(F) else X[F.index(min(F))]
