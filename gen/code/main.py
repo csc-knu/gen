@@ -15,12 +15,11 @@ from best_worst import best, worst
 np.set_printoptions(linewidth=100)
 np.random.seed(65537)
 
-n, _m = 1 << 10, 20
+n, _m, eps, p = 1 << 10, 20, 1e-5, 2e-3
 x_min, x_max = np.repeat(-2, _m), np.repeat(2, _m)
 g_dec = generation_dec(n, x_min, x_max)
-eps = 1e-5
 nn, dd, NN = bin_dec_param(x_min, x_max, eps)
-p = 2e-3
+
 
 def rastrigin(x: np.array) -> float:
 	return -10 * _m - np.sum(np.power(x, 2) - 10 * np.cos(2 * np.pi * x))
@@ -33,8 +32,8 @@ for _ in range(1, 1 << 10):
 	g_bin = crossover(g_bin, m, f)
 	g_dec = a_cod_decimal(g_bin, x_min, NN, dd)
 	f_vals = np.array([rastrigin(g_dec[i]) for i in range(n)]).reshape((n, 1))
-	# if not (_ & 63):
-	# 	print(f'it {_:0>4}: {np.max(f_vals):>12.7f}')
+	# if _ % 10 == 0:
+	print(f'it {_:0>4}: {np.max(f_vals):>12.7f}')
 	g_dec = np.hstack([g_dec, f_vals])
 	b, w = best(g_dec), worst(g_dec)
 	g_best = np.asarray(g_dec[b, :-1]).flatten()
