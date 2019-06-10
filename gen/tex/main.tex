@@ -51,7 +51,7 @@
 
 \subsection{GenerationDec}
 
-\subsubsection{Призначення}
+\subsubsection*{Призначення}
 
 Ця процедура заповнює матрицю із заданою кількістю рядків і стовпчиків випадковими десятковими числами із заданого діапазону. \medskip
 
@@ -59,34 +59,34 @@
 
 Елементи останнього стовпчика матриці не заповнюються випадковими числами і призначені для обчислення значень фітнес-функції, аргументами якої є всі попередні елементи рядка матриці.
 
-\subsubsection{Вхідні параметри}
+\subsubsection*{Вхідні параметри}
 
 \begin{itemize}
     \item $N, M$ --- цілі невід'ємні числа
     \item $X_{\text{min}}(1..M), X_{\text{max}}(1..M)$ --- масиви дійсних чисел, $X_{\text{min}}[i] < X_{\text{max}}[i]$, $i = \overline{1..M}$;
 \end{itemize}
 
-\subsubsection{Вихідні параметри}
+\subsubsection*{Вихідні параметри}
 
 \begin{itemize}
     \item $G(1..N, 1..M+1)$ --- матриця випадкових значень.
 \end{itemize}
 
-\subsubsection{Обчислення}
+\subsubsection*{Обчислення}
 
 Заповнює елементи матриці $G[i,j]$, $i = \overline{1..N}$, $j = \overline{1..M}$, $X_{\text{min}}[j] \le G[i, j] \le X_{\text{max}}[j]$.
 
-\subsubsection{Вказівки}
+\subsubsection*{Вказівки}
 
 Для генерування випадкових чисел з заданого діапазону використовувати функцію Generate пакета Random Tools.
 
-\subsubsection{Власне реалізація}
+\subsubsection*{Власне реалізація}
 
 \inputminted[firstline=7, lastline=40]{python}{../code/generation_dec.py}
 
 \subsection{Mutation}
 
-\subsubsection{Призначення}
+\subsubsection*{Призначення}
 
 Опрацьовує в циклі кожен елемент прямокутної матриці заданого розміру з елементами 0 або 1 за наступним правилом: 
 \begin{itemize}
@@ -96,21 +96,21 @@
 
 Результат зберігається у новій матриці.
 
-\subsubsection{Вхідні параметри}
+\subsubsection*{Вхідні параметри}
 
 \begin{itemize}
     \item $G$ --- прямокутна матриця зі значеннями 0 або 1;
     \item $p$ --- дійсне число $0 < p \ll 1$ --- ймовірність мутації.
 \end{itemize}
 
-\subsubsection{Вихідні параметри}
+\subsubsection*{Вихідні параметри}
 
 \begin{itemize}
     \item $G_{\text{mut}}$ --- прямокутна матриця зі значеннями 0 або 1, розмірність якої дорівнює розмірності $G$;
     \item $S_{\text{mut}}$ --- лічильних загальної кількості мутацій, що були виконані для матриці $G$.
 \end{itemize}
 
-\subsubsection{Обчислення}
+\subsubsection*{Обчислення}
 
 \begin{itemize}
     \item В циклі опрацювати кожен елемент матриці $G$, перевіряючи умову, що згенероване випадкове число менше заданого параметра $p$. 
@@ -118,23 +118,140 @@
     \item При кожній мутації збільшувати лічильник на одиницю.
 \end{itemize}
 
-\subsubsection{Вказівки}
+\subsubsection*{Вказівки}
 
 Для генерування випадкових чисел з заданого діапазону можна використовувати функцію Generate з пакету Random Tools.
 
-\subsubsection{Власне реалізація}
+\subsubsection*{Власне реалізація}
 
 \inputminted[firstline=6, lastline=15]{python}{../code/mutation.py}
 
 \subsection{Crossover}
 
+\subsubsection*{Призначення}
+
+Процедура опрацьовує вхідну прямокутну матрицю з парною $2N$ кількістю рядків і довільною кількістю стовпчиків, елементами якої є числа 0 або 1. \medskip
+
+Рядки матриці об'єднуються в пари, пари утворюються за значенням номерів рядків матриці, вказаними у двох списка розмірності $N$. \medskip
+
+Кожна пара рядків матриці опрацьовується наступним чином:
+\begin{itemize}
+    \item Генерується випадкове ціле число $1 \le \text{cros} \le L$ --- кількість стовпчиків матриці. 
+    \item Пара рядків матриці, яка зараз опрацьовується, обмінюється між собою елементами стовпчиків з номерами від $1$ до $\text{cros}$. 
+    \item Результати записуються у нову матрицю, розмірність якої дорівнює розмірності вхідної матриці.
+\end{itemize}
+
+\subsubsection*{Вхідні параметри}
+
+\begin{itemize}
+    \item $N$ --- ціле додатнє число;
+    \item $G(1..2N,1..L)$ --- матриця з елементами 0 або 1;
+    \item $M_{\text{list}}(1..N), F_{\text{list}}(1..N)$ --- списки цілих чисел зі значеннями в інтервалі від $1$ до $2N$.
+\end{itemize}
+
+\subsubsection*{Вихідні параметри}
+
+\begin{itemize}
+    \item Матриця $G_{\text{cros}}(1..2N,1..L)$ з елементами 0 або 1 як результат процедури кроссовера (схрещування).
+\end{itemize}
+
+\subsubsection*{Обчислення}
+
+\begin{itemize}
+    \item Організується цикл по елементам списків $M_{\text{list}}[i], F_{\text{list}}[i]$, $i = \overline{1..N}$. 
+    \item Послідовно опрацьовується кожна пара рядків $G[M_{\text{list}}[i],1..L]$ и $G[F_{\text{list}}[i],1..L]$. 
+    \item Для кожної такої пари рядків генерується випадкове число $\text{cros}$ від $1$ до $L$. 
+    \item Ці рядки обмінюються між собою елементами від $1$ до $\text{cros}$. 
+    \item Результат змінених рядків записується у нову матрицю $G_{\text{cros}}(1..2N,1..L)$.
+\end{itemize}
+
+\subsubsection*{Вказівки}
+
+\begin{itemize}
+    \item Для генерування випадкових чисел з заданого діапазону можна використовувати функцію Generate з пакету Random Tools.
+    \item Для обчислення кількості рядків або стовпчиків матриці можна використовувати функції RowDimension і ColumnDimension з пакету LinearAlgebra.
+\end{itemize}
+
+\subsubsection*{Власне реалізація}
+
+\inputminted[firstline=5, lastline=30]{python}{../code/crossover.py}
+
 \subsection{Parents}
+
+\subsubsection*{Призначення}
+
+послідовність натуральних чисел від $1$ до $2N$ розбивається на два списки натуральних чисел таким чином, що елементи кожгого списку вибираються випадковим чином з діапазону $[1..2N]$ з умовою, що елементи списків з одинаковими номерами різні.
+
+\subsubsection*{Вхідні параметри}
+
+\begin{itemize}
+    \item $N$ --- кількість елементів списків.
+\end{itemize}
+
+\subsubsection*{Вихідні параметри}
+
+\begin{itemize}
+    \item Списки $m_{\text{list}}(1..N), f_{\text{list}}(1..N)$.
+\end{itemize}
+
+\subsubsection*{Обчислення}
+
+\begin{itemize}
+    \item Організується циклічний процес по всім елементам списку. 
+    \item Елементам першого списку значення присвоють випадковим чином, а елементам другого списку випадковим чином, але з умовою, що $m_{\text{list}}[i] \ne f_{\text{list}}[i]$.
+    \item При рівності робиться ще спроба присвоєння випадково числа до виконання умови.
+\end{itemize}
+
+\subsubsection*{Вказівки}
+
+Для генерування випадкових чисел з заданого діапазону можна використовувати функцію Generate з пакету Random Tools.
+
+\subsubsection*{Власне реалізація}
+
+\inputminted[firstline=6, lastline=12]{python}{../code/parents.py}
 
 \subsection{BinDecParam}
 
+\subsubsection*{Призначення}
+
+Це допоміжна процедура для CodBinary і CodDecimal, обчислює параметри для прямого і зворотнього перетворення із заданою точністю із заданого інтервалу дійсних чисел у бінарну послідовність. 
+
+\subsubsection*{Вхідні параметри}
+
+\begin{itemize}
+    \item $M$ --- розмірності масивів.
+    \item $X_{\text{min}}(1..M)$ --- масив, де $X_{\text{min}}[j]$ --- мінімальне значення діапазону $j$;
+    \item $X_{\text{max}}(1..M)$ --- масив, де $X_{\text{max}}[j]$ --- максимальне значення діапазону $j$;
+    \item $\varepsilon$ --- точність представлення десяткових чисел двійковим кодом.
+\end{itemize}
+
+\subsubsection*{Вихідні параметри}
+
+\begin{itemize}
+    \item $nn[i]$, $i = \overline{1..M}$ --- список цілих чисел, містить значення кількості бінарних розрядів які необхідні для кодування довільного дійсного числа з діапазону $[X_{\text{min}}[i], X_{\text{max}}[i]]$ з точністю $\varepsilon$.
+    \item $dd[i]$, $i = \overline{1..M}$ --- дійсне число, містить значення дискретності для представлення дійсного числа із заданого діапазону цілим числом.
+    \item $NN[j + 1] = \sum_{i = 1}^j nn[i]$, $j = \overline{1..M}$, $NN[1] = 0$ --- список цілих чисел.
+\end{itemize}
+
+\subsubsection*{Вказівки}
+
+Всі вихідні параметри описуються з атрибутом global.
+
+\subsubsection*{Обчислення}
+
+\begin{align}
+    nn[i] &= \left[ \log_2 \left( \frac{X_{\text{max}}[i] - X_{\text{min}}[i]}{\varepsilon} \right) \right] + 1, \quad i = \overline{1..M}, \\
+    dd[i] &= \frac{X_{\text{max}}[i] - X_{\text{min}}[i]}{2^{nn[i]}} \le \varepsilon, \quad i = \overline{1..M}, \\
+    NN[j + 1] &= \sum_{i = 1}^j nn[i], \quad j = \overline{1..M}, \quad NN[1] = 0.
+\end{align}
+
+\subsubsection*{Власне реалізація}
+
+\inputminted[firstline=9, lastline=51]{python}{../code/bin_dec_param.py}
+
 \subsection{CodBinary}
 
-\subsubsection{Призначення}
+\subsubsection*{Призначення}
 
 Процедура виконує кодування довільного дійсного числа $x_{\text{dec}}$ з заданого діапазону $[x_{\text{min}}..x_{\text{max}}]$ з заданою точністю $\varepsilon$ у послідовність з 0 і 1 фіксованої довжини. \medskip
 
@@ -142,7 +259,7 @@
 
 Допоміжні параметри обчислюються процедурою BinDecParam.
 
-\subsubsection{Вхідні параметри}
+\subsubsection*{Вхідні параметри}
 
 \begin{itemize}
     \item $x_{\text{dec}}$ --- десяткове число;
@@ -151,7 +268,7 @@
     \item $d$ --- дискретність кодування дійсного числа $x_{\text{dec}}$ цілим числом.
 \end{itemize}
 
-\subsubsection{Вихідні параметри}
+\subsubsection*{Вихідні параметри}
 
 \begin{itemize}
     \item $X_{\text{bin}}$ --- список з $l$ розрядів двійкового числа, молодші розряді йдуть спочатку. 
@@ -159,7 +276,7 @@
 
 У разі потреби старші розряди дозаповнюються нулями.
 
-\subsubsection{Обчислення}
+\subsubsection*{Обчислення}
 
 Ціле число частин величини $d$ для заданого числа $x_{\text{dec}}$ можно обчислити як
 \begin{equation}
@@ -168,21 +285,58 @@
 
 Ціле число $xx$ записуємо у двійковій формі і доповнюємо старші розряди нулями, якщо їхня кількість менше $l$.
 
-\subsubsection{Вказівки}
+\subsubsection*{Вказівки}
 
 Значення $l$ і $d$ обчислюються процедурою BinDecParam і не можуть задаватися довільно. \medskip
 
 Перетворення цілого десяткового числа у двійковий код (список 0 і 1) можна виконати функцією convert(xx, base, 2).
 
-\subsubsection{Власне реалізація}
+\subsubsection*{Власне реалізація}
 
 \inputminted[firstline=7, lastline=28]{python}{../code/cod_binary.py}
 
 \subsection{CodDecimal}
 
+\subsubsection*{Призначення}
+
+Процедура виконує перетворення закодованого послідовністю з 0 і 1 двійкового представлення числа з заданого діапазону $[x_{\text{min}}..x_{\text{max}}]$ із заданою точністю $\varepsilon$ у його звичайне десяткове представлення. \medskip
+
+Процедура працює в парі з процедурою CodBinary, яка виконує зворотнє перетворення. 
+
+\subsubsection*{Вхідні параметри}
+
+\begin{itemize}
+    \item $x_{\text{bin}}$ --- послідовність розрядів двійкового числа;
+    \item $x_{\text{min}}$ --- мінімальне значення десяткового числа;
+    \item $d$ --- дискретність кодування дійсного чиисла $x_{\text{dec}}$ цілим числом.
+\end{itemize}
+
+\subsubsection*{Вихідні параметри}
+
+\begin{itemize}
+    \item $x_{\text{dec}}$ --- десяткове число. 
+\end{itemize}
+
+\subsubsection*{Обчислення}
+
+\begin{itemize}
+    \item Послідовність розрядів $x_{\text{bin}}$ перетворюється у ціле число $x_{\text{dec}}'$. 
+    \item Далі за допомогою цілого числа $d$ відновлюємо десяткове число $x_{\text{dec}} = x_{\text{min}} + d \cdot x_{\text{dec}}'$.
+\end{itemize}
+
+\subsubsection*{Вказівки}
+
+Значення $l$ і $d$ обчислюються процедурою BinDecParam і не можуть задаватися довільно. \medskip
+
+Перетворення двійкового коду (список 0 і 1) у послідовність десяткових розрядів цілого десяткового числа можна виконати функцією convert(xbin, base, 2, 10).
+
+\subsubsection*{Власне реалізація}
+
+\inputminted[firstline=9, lastline=24]{python}{../code/cod_decimal.py}
+
 \subsection{ACodBinary}
 
-\subsubsection{Призначення}
+\subsubsection*{Призначення}
 
 Послідовно перетворює дійсні числа, а саме елементи матриці $G_{\text{dec}}(1..N,1..M+1)$, яка складається з $N$ рядків і $M + 1$ стовпчиків у двійковий код. \medskip
 
@@ -192,9 +346,9 @@
 
 Результати перетворення дійсних чисел зберігаються у матрицю Gbin з елементами 0 або 1. \medskip
 
-Кожному стовпчику матриці $G_{\text{dec}}$ відповідає фіксована кількість стовпчиків матриці $G_{\text{bin}}$, яка визначається діапазоном дійсних значень які кодуються і точністю їхнього представлення (див. процедуру [CodBinary](cod_binary.md), параметр $l$).
+Кожному стовпчику матриці $G_{\text{dec}}$ відповідає фіксована кількість стовпчиків матриці $G_{\text{bin}}$, яка визначається діапазоном дійсних значень які кодуються і точністю їхнього представлення (див. процедуру CodBinary, параметр $l$).
 
-\subsubsection{Вхідні параметри}
+\subsubsection*{Вхідні параметри}
 
 \begin{itemize}
     \item $N, M$ --- розмірності матриці $G_{\text{dec}}(1..N,1..M+1)$;
@@ -203,36 +357,171 @@
     \item Глобальні параметри процедури BinDecParam: $nn, dd, NN$.
 \end{itemize}
 
-\subsubsection{Вихідні параметри}
+\subsubsection*{Вихідні параметри}
 
 \begin{itemize}
     \item Матриця $G_{\text{bin}}$ з елементами 0 або 1, яка складається з $N$ рядків, кількість стовпчиків матриці визначається значенням $NN \cdot (M + 1)$.
 \end{itemize}
 
-\subsubsection{Обчислення}
+\subsubsection*{Обчислення}
 
-В циклі опрацьовуємо кожний елемент матриці $G_{\text{dec}}$, використовуємо процедуру [CodBinary](cod_binary.md), записуємо результати перетворення у матрицю $G_{\text{bin}}$ розмірності $(1..N, 1..NN \cdot [M+1])$.
+В циклі опрацьовуємо кожний елемент матриці $G_{\text{dec}}$, використовуємо процедуру CodBinary, записуємо результати перетворення у матрицю $G_{\text{bin}}$ розмірності $(1..N, 1..NN \cdot [M+1])$.
 
-\subsubsection{Вказівки}
+\subsubsection*{Вказівки}
 
 Використовувати для обробки кожного елемента вихідної матриці процедуру CodBinary.
 
-\subsubsection{Власне реалізація}
+\subsubsection*{Власне реалізація}
 
 \inputminted[firstline=31, lastline=73]{python}{../code/cod_binary.py}
 
 \subsection{ACodDecimal}
 
+\subsubsection*{Призначення}
+
+Опрацьовує вміст матриці $G_{\text{bin}}$ з елементами 0 або 1 використовуючи структуру матриці і перетворює послідовності з 0 і 1 заданих довжин у дійсні числа.
+
+\subsubsection*{Вхідні параметри}
+
+\begin{itemize}
+    \item $N, M$ --- розмірності матриці $G_{\text{dec}}(1..N,1..M+1)$;
+    \item Матриця $G_{\text{bin}}$;
+    \item $X_{\text{min}}(1..M)$ --- масив, де $X_{\text{min}}[j]$ --- мінімальное значення елемениів стовпчика $j$;
+    \item Глобальні параметри $nn, dd, NN$ процедури BinDecParam.
+\end{itemize}
+
+\subsubsection*{Вихідні параметри}
+
+\begin{itemize}
+    \item Матриця $G_{\text{dec}}(1..N,1..M+1)$.
+\end{itemize}
+
+\subsubsection*{Обчислення}
+
+\begin{itemize}
+    \item У циклі послідовно опрацьовуються всі рядки матриці $G_{\text{bin}}$. 
+    \item З кожного рядка вибираються $M$ послідовностей з 0 і 1, які опрацьовує процедура CodDecimal. 
+    \item Отримані дійсні числа записуються у матрицю $G_{\text{dec}}(1..N,1..M+1)$.
+\end{itemize}
+
+\subsubsection*{Власне реалізація}
+
+\inputminted[firstline=27, lastline=66]{python}{../code/cod_decimal.py}
+
 \subsection{Adapt}
+
+\subsubsection*{Призначення}
+
+Генерирує масив $N$ цілих невід'ємних чисел, сума яких дорівнює $N$. \medskip
+
+Кожне значення з номером $j$ масиву обчислюється як кількість потраплянь випадкового числа рівномірно розподіленого на відрізку $[0..1]$ у підінтервал з номером $1 \le j \le N$, що належить відрізну $[0..1]$. \medskip
+
+Сума довжин всіх підінтервалів дорівнює одиниці.
+
+\subsubsection*{Вхідні параметри}
+
+\begin{itemize}
+    \item $p$ --- послідовність $N$ дійсних чисел;
+    \item $N$ --- ціле додатнє число.
+\end{itemize}
+
+\subsubsection*{Вихідні параметри}
+
+\begin{itemize}
+    \item $\text{num}$ --- масив $N$ цілих невід'ємних чисел, сума яких дорівнює $N$.
+\end{itemize}
+
+\subsubsection*{Обчислення}
+
+\begin{itemize}
+    \item Перетворюємо послідовнітсь $p$:
+    \begin{itemize}
+        \item Знаходимо мінимальний елемент $p$.
+        \item Віднімаємо від кожного елемента $p$ мінімальний елемент, утворюємо $p_1$.
+    \end{itemize}
+    \item Знаходимо суму всіх елементів $p_1$;
+    \item Ділимо кожен елемент $p_1$ на суму значень його елементів, утворюємо $p_2$.
+    \item Утворюємо список префіксних сум $p_2$:
+	\begin{equation}
+	    \text{adaptability} = [0, p_2[1], p_2[1] + p_2[2], \ldots, p_2[1] + p_2[2] + \ldots + p_2[N]].
+	\end{equation}
+    \item $N$ разів генеруємо випадкове число $0 \le \text{roll} < 1$ і перевіряємо умову належності випадкового числа $\text{roll}$ одному з діапазонів списку $\text{adaptability}$:
+    \begin{itemize}
+        \item Якщо $\text{adaptability}[j] \le \text{roll} < \text{adaptability}[j + 1]$, то $\text{num}[j] = \text{num}[j] + 1$.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{Вказівки}
+
+Для генерування випадкових чисел з заданого діапазону можна використовувати функцію Generate з пакету Random Tools.
+
+\subsubsection*{Власне реалізація}
+
+\inputminted[firstline=6, lastline=31]{python}{../code/adapt.py}
 
 \subsection{Best і Worst}
 
+\subsubsection*{Призначення}
+
+Процедури опрацьовують $(M+1)$-ий стовпчик матриці $G_{\text{dec}}$, який містить дійсні значення деякої функції від $M$ аргументів, самі аргументи містять у стовпчиках з $1$ по $M$.
+
+\subsubsection*{Обчислення}
+
+Процедура Best обчислює номер рядка з мінімальним значенням функції, а процедура Worst --- номер рядка з максимальним значенням функції. 
+
+\subsubsection*{Вхідні параметри}
+
+\begin{itemize}
+    \item $G_{\text{dec}}$ --- вищезгадана матриця.
+\end{itemize}
+
+\subsubsection*{Вихідні параметри}
+
+\begin{itemize}
+    \item Кожна з процедур повертає знайдене ціле число.
+\end{itemize}
+
+\subsubsection*{Власне реалізація}
+
+\inputminted[firstline=5, lastline=36]{python}{../code/best_worst.py}
+
 \subsection{NewGeneration}
+
+\subsubsection*{Призначення}
+
+Опрацьовує рядки вхідної матриці виходячи зі значень вхідного цілочисельного масиву з невід'ємними елементами (сума елементов цілочисльного масиву дорівнює кількості рядків матриці). \medskip
+
+Розмірність масива і кількість рядків матриці рівні. \medskip
+
+Рядок з номером $j$ вхідної матриці записується у вихідну матрицю таку кількість разів, яка дорівнює цілому значенню з номером $j$ масива. \medskip
+
+Якщо на позиції $j$ знаходиться число $0$, то рядок у вихідну матрицю не записується.
+
+\subsubsection*{Вхідні параметри}
+
+\begin{itemize}
+    \item $G_{\text{dec}}(1..N,1..M+1)$ --- матриця;
+    \item $\text{num}(1..N)$ --- масив цілочисльних значень.
+\end{itemize}
+
+\subsubsection*{Вихідні параметри}
+
+\begin{itemize}
+    \item $G_{\text{dec}_{\text{new}}}(1..N,1..M+1)$ --- вихідна матриця.
+\end{itemize}
+
+\subsubsection*{Власне реалізація}
+
+\inputminted[firstline=5, lastline=11]{python}{../code/new_generation.py}
+
+\subsection{Програма-драйвер}
+
+\inputminted[lastline=43]{python}{../code/main.py}
 
 \section{Тестування програмного продукту}
 
-\newpage
-\bibliography{main}
-\bibliographystyle{ieeetr}
+% \newpage
+% \bibliography{main}
+% \bibliographystyle{ieeetr}
 
 \end{document}
