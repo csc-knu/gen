@@ -20,24 +20,101 @@
 
 \tableofcontents
 
+\section{Постановка задачі}
+
+Задано орієнтований граф $G = (V, E)$. Ребро $e_i \in E$ графа характеризуються довжиною $\ell_i$. Задано початкову вершину $s \in V$ і цільову (кінцеву, фінальну) вершину $f \in V$. \medskip
+
+Необхідно знайти найкоротший шлях із $s$ до $f$.
+
 \section{Неформальний опис алгоритму}
 
-\subsection{Власне опис}
+Розглянемо популяцію з $N$ мурах, які протягом $M$ ітерацій намагаються знайти найкоротший шлях (наприклад, шлях доставки листя до мурашника). \medskip
 
-\subsection{Історія винаходу методу}
+Уявімо, що на кожній ітерації кожна мурашка проходить якийсь шлях, залишаючи на своєму шляху феромени, і керуючись вже наявними із попередніх ітерацій фероменами для вибору шляху.
 
-\subsection{Сфери застосування}
+\section{Код програмного продукнту}
 
-\subsection{Можливі модифікації}
+\subsection{Представлення графу у пам'яті програми}
 
-\section{Формалізований опис алгоритму}
+\inputminted[firstline=64, lastline=75]{python}{../../code/salesman/main.py}
 
-\section{Код програмного продукту}
+де ребро моделюєтсья наступним класом:
+
+\inputminted[firstline=55, lastline=60]{python}{../../code/salesman/main.py}
+
+Як бачимо, у ребра є довжина (\verb|length|), на ньому є певна інтенсивність фероменів (\verb|feroment|), і необхідне оновлення фероментів (\verb|delta|).
+
+\subsection{Клас, який моделює мурашку}
+
+\subsubsection{Конструктор}
+
+\inputminted[firstline=6, lastline=13]{python}{../../code/salesman/main.py}
+
+Як ми бачимо з коду, кожна мурашка пам'ятає список вже пройдених вершин (\verb|tabu_list|), знає у якій вершині вона зараз знаходиться (\verb|vertice|), знає, куди їй треба йти (\verb|target|), підтримує у пам'яті загальну довжину пройденого шляху (\verb|path_length|), сам цей шлях (\verb|path|) і знає, чи вона ``жива'' (\verb|alive|). \textit{Мурашка вважається ``мертвою'', якщо вона не змогла дістатися мурашника.}
+
+\subsubsection{Метод для вибору напрямку кроку}
+
+\inputminted[firstline=15, lastline=44]{python}{../../code/salesman/main.py}
+
+\subsubsection{Метод для пошуку цілісного шляху:}
+
+\inputminted[firstline=46, lastline=52]{python}{../../code/salesman/main.py}
+
+\subsection{Програма-драйвер}
+
+\inputminted[firstline=82, lastline=91]{python}{../../code/salesman/main.py}
 
 \section{Тестування програмного продукту}
 
-\newpage
-\bibliography{main}
-\bibliographystyle{ieeetr}
+\subsection{Граф}
+
+Ось так виглядає наш тестовий граф:
+\begin{figure}[H]
+    \centering
+    \inclugegraphics[width=\textwidth]{../../code/salesman/graph.jpg}
+\end{figure}
+
+\subsection{Графіки}
+
+Інтенсивність фероменів від ітерації:
+
+\subsubsection{10 ітерацій}
+
+\begin{figure}[H]
+    \centering
+    \inclugegraphics[width=\textwidth]{../../code/salesman/feroment_10.png}
+\end{figure}
+
+\subsubsection{100 ітерацій}
+
+\begin{figure}[H]
+    \centering
+    \inclugegraphics[width=\textwidth]{../../code/salesman/feroment_100.png}
+\end{figure}
+
+\subsubsection{1000 ітерацій}
+
+\begin{figure}[H]
+    \centering
+    \inclugegraphics[width=\textwidth]{../../code/salesman/feroment_1000.png}
+\end{figure}
+
+\subsection{Швидкодія}
+
+Середній час виконання ітерації --- \textbf{0.179} секунди, або \textbf{3} хвилини на \textbf{1000} ітерацій. \medskip
+
+Зауважимо, що алгоритм багатоагентний і ідеально паралелиться, тому насправді нас цікавить час виконання однією мурахою однієї ітерації.  \medskip
+
+Нескладно зрозуміти, що час виконання однієї мурахо-ітерації мізерний, а саме \textbf{0.000179} секунди, тобто одна мурашка може виконати понад \textbf{5000} ітерацій за одну секунду. \medskip
+
+На більшому графі ($\vert V \vert = 30$, $\vert E \vert = 100$) швидкодія передбачувано знизиться, але все одно складе принаймні \textbf{100} ітерацій на секунду. \medskip
+
+Тобто, маючи \textbf{16} логічних процесорів (а саме стільки їх у моєму ноутбуці) і розпаралеливши алгоритм можна розв'язати у \textbf{50} разів складнішу (і вже цілком реалістичну) задачу десь за \textbf{30} хвилин. \medskip
+
+Непоганий результат, враховуючи що сама постановка задачі NP-повна.
+
+% \newpage
+% \bibliography{main}
+% \bibliographystyle{ieeetr}
 
 \end{document}

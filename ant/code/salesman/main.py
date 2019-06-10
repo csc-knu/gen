@@ -49,8 +49,6 @@ class Ant:
 
 		if self.alive:
 			for f, t in self.path:
-				# print(f, t, g[f][t])
-				# input()
 				g[f][t].delta += .1 * g[f][t].length / self.path_length**2
 
 
@@ -69,35 +67,26 @@ if __name__ == '__main__':
 
 	g = {
 		A: {B: Edge(2), C: Edge(3), D: Edge(6)},
-		# B: {A: Edge(2), C: Edge(2), D: Edge(3), E: Edge(4), F: Edge(5)},
 		B: {E: Edge(4), F: Edge(5)},
-		# C: {A: Edge(3), B: Edge(2), D: Edge(2), E: Edge(2), F: Edge(3)},
 		C: {E: Edge(2), F: Edge(3)},
-		# D: {A: Edge(6), B: Edge(3), C: Edge(2), E: Edge(5), F: Edge(2)},
 		D: {E: Edge(5), F: Edge(2)},
-		# E: {B: Edge(4), C: Edge(2), D: Edge(5), F: Edge(2), G: Edge(2)},
 		E: {G: Edge(2)},
-		# F: {B: Edge(5), C: Edge(3), D: Edge(2), E: Edge(2), G: Edge(1)},
 		F: {G: Edge(1)},
-		# G: {E: Edge(2), F: Edge(1)},
 		G: {},
 	}
 
-	n, m = 1000, 1000
-
 	h = [{f: {t: g[f][t].feroment / g[f][t].length for t in g[f]} for f in g}]
 
+	n, m = 1000, 1000
+	
 	for i in range(m):
-		print(f'{i:0>3}')
 		for j in range(n):
-			# print(f'{i:0>3} {j:0>3}')
+			print(f'{i:0>3} {j:0>3}')
 			ant = Ant(start=START, target=END)
 			ant.solve()
 
 		for f in g:
 			for t in g[f]:
-				# print(f, t, g[f][t])
-				# input()
 				g[f][t].feroment, g[f][t].delta = \
 					.7 * g[f][t].feroment + g[f][t].delta, 0
 
