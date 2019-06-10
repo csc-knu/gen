@@ -42,6 +42,6 @@ $$
 NN[j + 1] = \sum_{i = 1}^j nn[i], \quad j = \overline{1..M}, \quad NN[1] = 0.
 $$
 
-[Назад до лаби](README.md)
+[Назад до лаби](../README.md)
 
-[Назад на головну](../README.md)
+[Назад на головну](../../README.md)
