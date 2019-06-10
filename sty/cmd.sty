@@ -1,0 +1,69 @@
+\renewcommand{\phi}{\varphi}
+\renewcommand{\epsilon}{\varepsilon}
+
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+
+\newcommand{\la}{\mathcal{L}}
+\newcommand{\ca}{\mathcal{C}}
+\newcommand{\hi}{\mathcal{H}}
+
+\newcommand{\no}[1]{\left\| #1 \right\|}
+\renewcommand{\sp}[1]{\left\langle #1 \right\rangle}
+% \renewcommand{\sp}[2]{\left\langle #1, #2 \right\rangle}
+\renewcommand{\bar}{\overline}
+
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+\newcommand*\rfrac[2]{{}^{#1}\!/_{\!#2}}
+
+\DeclareMathOperator{\argmin}{argmin}
+\DeclareMathOperator{\epigraph}{epi}
+\DeclareMathOperator{\proximal}{prox}
+\DeclareMathOperator{\diagonal}{diag}
+\DeclareMathOperator{\domain}{dom}
+\DeclareMathOperator{\trace}{tr}
+
+\DeclareMathOperator*{\Argmin}{argmin}
+\DeclareMathOperator*{\Min}{min}
+\DeclareMathOperator*{\Inf}{inf}
+\DeclareMathOperator*{\Sup}{sup}
+\DeclareMathOperator*{\Lim}{lim}
+
+\DeclareMathOperator*{\Sum}{\sum}
+\DeclareMathOperator*{\Int}{\int}
+
+\renewcommand{\appendixtocname}{Додаток}
+\renewcommand{\appendixpagename}{Додаток}
+\renewcommand{\appendixname}{Додаток}
+\makeatletter
+\let\oriAlph\Alph
+\let\orialph\alph
+\renewcommand{\@resets@pp}{\par
+  \@ppsavesec
+  \stepcounter{@pps}
+  \setcounter{section}{0}%
+  \if@chapter@pp
+    \setcounter{chapter}{0}%
+    \renewcommand\@chapapp{\appendixname}%
+    \renewcommand\thechapter{\@Alph\c@chapter}%
+  \else
+    \setcounter{subsection}{0}%
+    \renewcommand\thesection{\@Alph\c@section}%
+  \fi
+  \if@pphyper
+    \if@chapter@pp
+      \renewcommand{\theHchapter}{\theH@pps.\oriAlph{chapter}}%
+    \else
+      \renewcommand{\theHsection}{\theH@pps.\oriAlph{section}}%
+    \fi
+    \def\Hy@chapapp{appendix}%
+  \fi
+  \restoreapp
+}
+\makeatother
+
+\renewcommand\thempfootnote{\alph{mpfootnote}}
+\newcommand{\todo}[1]{\footnote{\textcolor{red}{TODO}: #1}}
