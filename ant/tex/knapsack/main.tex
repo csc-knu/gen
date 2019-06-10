@@ -14,7 +14,7 @@
 
 \begin{document}
 
-\cover{3}{Мурашиний алгоритм}
+\coverleader{3}{Мурашиний алгоритм}
 
 \people
 
@@ -75,11 +75,11 @@
     \chi_i = \chi(u_i, w_i, f_i),
 \end{equation}
 де на функцію $\chi$ накладаються наступні умови
-\begin{align}
-    \frac{\partial \chi}{\partial w_i} &< 0, \\
-    \frac{\partial \chi}{\partial u_i} &> 0, \\
-    \frac{\partial \chi}{\partial f_i} &> 0.
-\end{align}
+\begin{equation}
+    \frac{\partial \chi}{\partial w_i} < 0, \qquad
+    \frac{\partial \chi}{\partial u_i} > 0, \qquad
+    \frac{\partial \chi}{\partial f_i} > 0.
+\end{equation}
 
 Наприклад,
 \begin{equation}
@@ -112,7 +112,7 @@
 
 \subsection{Програма-драйвер і основний алгоритм}
 
-\inputminted{python}{../../code/knapsack/knapsack.py}
+\inputminted{python}{../../code/knapsack/main.py}
 
 \section{Результати}
 
