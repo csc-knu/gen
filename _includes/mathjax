@@ -8,7 +8,6 @@
 				},
 				Macros: {
 					RR: "{\\mathbb{R}}",
-					cond: "\\mathrm{cond}\\mathop{}",
 					diff: "\\mathop{}\\!\\mathrm{d}",
 					Int: "\\displaystyle\\int\\limits",
 					Inf: "\\displaystyle\\inf\\limits",
